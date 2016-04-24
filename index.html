@@ -40,7 +40,7 @@
 	</head>
 	<body>
         <nav>
-            Rule <input id="numberRule" type="number" value="9" min="0" max="255" step="1" oninput="onInputNumberRule(this.value)">
+            Rule <input id="numberRule" type="number" value="9" min="0" max="255" step="1" onchange="onChangeNumberRule(this.value)">
         </nav>
         
         <div id="imglist">
@@ -181,7 +181,7 @@
             
             
             // 初期設定 //
-            onInputNumberRule(document.getElementById("numberRule").value);
+            onChangeNumberRule(document.getElementById("numberRule").value);
             onClickButtonCA(0, 0);
             
             // UI //
@@ -191,7 +191,7 @@
                     elem.removeChild(elem.firstChild);
             }
             
-            function onInputNumberRule(rule)
+            function onChangeNumberRule(rule)
             {
                 var imglist = document.getElementById("imglist");
                 
