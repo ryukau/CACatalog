@@ -30,6 +30,7 @@
             }
             
             #CACanvas canvas{
+                display: none;
                 border-style: dotted;
                 border-width: 0.2px;
                 border-color: #dddddd;
@@ -48,6 +49,7 @@
         <div id="CACanvas">
             <p id="CACanvasText">ここはキャンバス。</p>
             <canvas id="canvas" width="960" height="960"></canvas>
+            <img src="" id="canvasImg" width="960" height="960" />
         </div>
         
         <script>
@@ -237,6 +239,10 @@
                 }
                     
                 updateCanvas();
+                
+                // 画像に変換して表示
+                var canvasImg = document.getElementById("canvasImg");
+                canvasImg.src = canvas.toDataURL();
             }
             
             function updateCanvas()
