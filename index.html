@@ -12,6 +12,10 @@
                 margin: 0;
             }
             
+            .bigFont {
+                font-size: 150%;
+            }
+            
             #imglist {
                 height: 500px;
                 overflow-y: scroll;
@@ -39,8 +43,8 @@
         </style>
 	</head>
 	<body>
-        <nav>
-            Rule <input id="numberRule" type="number" value="9" min="0" max="255" step="1" onchange="onChangeNumberRule(this.value)">
+        <nav class="bigFont">
+            Rule <input id="numberRule" class="bigFont" type="number" value="9" min="0" max="255" step="1" onchange="onChangeNumberRule(this.value)">
         </nav>
         
         <div id="imglist">
