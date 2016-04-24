@@ -48,7 +48,7 @@
         </div>
         <div id="CACanvas">
             <p id="CACanvasText">ここはキャンバス。</p>
-            <canvas id="canvas" width="960" height="960"></canvas>
+            <canvas id="canvasBig" width="960" height="960"></canvas>
             <img src="" id="canvasImg" width="960" height="960" />
         </div>
         
@@ -164,20 +164,11 @@
             }
             
             // canvas設定 //
-            var canvas = document.getElementById('canvas');
-            var context = canvas.getContext('2d');
-            context.imageSmoothingEnabled= false;
+            var canvasBig = document.getElementById('canvasBig');
+            canvasBig.getContext('2d').imageSmoothingEnabled = false;
             
             var ca = new TotalisticCA(48, 48);
             
-            var width = canvas.width;
-            var height = canvas.height;
-            
-            var scale = {x: width / ca.width, y: height / ca.height};
-            var gridSize = scale;
-            
-            var imageData = context.getImageData(0, 0, width, height);
-            var pixels = imageData.data;
             
             
             // 初期設定 //
@@ -197,29 +188,37 @@
                 
                 removeAllChild(imglist);
                 
+                ca.rule = rule;
+                ca.drawGrid();
+                
                 if (rule && 0 <= rule && rule < 256)
                 {
                     var ol = imglist.appendChild(document.createElement("ol"));
                     for (var gen = 1; gen <= 1000; ++gen)
                     {
+                        ca.next();
+                        
                         var li = ol.appendChild(document.createElement("li"));
                         
                         var figure = li.appendChild(document.createElement("figure"));
                         
-                        var input = figure.appendChild(document.createElement("input"));
-                        input.type = "image";
+                        var input = figure.appendChild(document.createElement("canvas"));
+                        //input.type = "image";
+                        input.width  = ca.width;
+                        input.height = ca.height;
+                        
                         var strRule = ("00" + rule).substr(-3);
                         var strGen; // ファイル名変更の可能性あり
                         if (gen < 1000)
                             strGen = ("00" + gen.toString()).substr(-3);
                         else
                             strGen = gen.toString();
-                        var dir = "img/rule" + strRule + "/";
-                        input.src = dir + "2DTCA_48x48_Grid16_Rule" + strRule + "_Generation" + strGen + ".png";
                         input.dataset.rule = rule.toString();
                         input.dataset.generation = gen.toString();
                         input.addEventListener("click", function(){onClickButtonCA(this.dataset.rule, this.dataset.generation)}, false);
-                        input.textContent = strGen;
+                        
+                        input.getContext('2d').imageSmoothingEnabled = false;
+                        updateCanvas(input, false);
                         
                         var figcaption = figure.appendChild(document.createElement("figcaption"));
                         figcaption.textContent = strGen;
@@ -245,24 +244,37 @@
                     ca.next();
                 }
                     
-                updateCanvas();
+                updateCanvas(canvasBig, true);
                 
                 // 画像に変換して表示
                 var canvasImg = document.getElementById("canvasImg");
-                canvasImg.src = canvas.toDataURL();
+                canvasImg.src = canvasBig.toDataURL();
             }
             
-            function updateCanvas()
+            function updateCanvas(_canvas, grid)
             {
+                var width  = _canvas.width;
+                var height = _canvas.height;
+                
+                var scale = {x: width / ca.width, y: height / ca.height};
+                var gridSize = scale;
+                
+                var context = _canvas.getContext('2d');
+                var imageData = context.getImageData(0, 0, width, height);
+                var pixels = imageData.data;
+                
                 for (var y = 0; y < height; ++y) {
                     for (var x = 0; x < width; ++x) {
                         var state = ca.at(Math.floor(x / scale.x), Math.floor(y / scale.y));
                         
-                        // グリッド線の描画
-                        if ((x % gridSize.x) == 0 || (y % gridSize.y) == 0)
-                            state = 2;
-                        else if(x == (width - 1) || y == (height - 1))
-                            state = 2;
+                        if (grid)
+                        {
+                            // グリッド線の描画
+                            if ((x % gridSize.x) == 0 || (y % gridSize.y) == 0)
+                                state = 2;
+                            else if(x == (width - 1) || y == (height - 1))
+                                state = 2;
+                        }
                             
                         var color = palette(state);
                         
