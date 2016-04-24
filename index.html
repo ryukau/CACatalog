@@ -203,7 +203,10 @@
                     for (var gen = 1; gen <= 1000; ++gen)
                     {
                         var li = ol.appendChild(document.createElement("li"));
-                        var input = li.appendChild(document.createElement("input"));
+                        
+                        var figure = li.appendChild(document.createElement("figure"));
+                        
+                        var input = figure.appendChild(document.createElement("input"));
                         input.type = "image";
                         var strRule = ("00" + rule).substr(-3);
                         var strGen; // ファイル名変更の可能性あり
@@ -216,6 +219,10 @@
                         input.dataset.rule = rule.toString();
                         input.dataset.generation = gen.toString();
                         input.addEventListener("click", function(){onClickButtonCA(this.dataset.rule, this.dataset.generation)}, false);
+                        input.textContent = strGen;
+                        
+                        var figcaption = figure.appendChild(document.createElement("figcaption"));
+                        figcaption.textContent = strGen;
                     }
                 }
                 else
