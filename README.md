@@ -1,7 +1,8 @@
 # CA カタログ
 模様のカタログとしての利用を想定しています。
 
-[使ってみる](http://ryukau.github.io/CACatalog/)
+- [カタログを使う](http://ryukau.github.io/CACatalog/)
+- [CAを眺める](http://ryukau.github.io/FS021/)
 
 ## 使い方
 ページ左上にあるRuleに0~255までの数字を入れると、その下の画像リストが変わります。
