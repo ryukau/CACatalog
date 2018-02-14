@@ -42,7 +42,7 @@ class TotalisticCA {
   get height() {
     return this._height;
   }
-  
+
   changeSize(width, height) {
     this.initialize(width, height);
   }
@@ -57,9 +57,11 @@ class TotalisticCA {
   }
 
   drawGrid() {
+    var gridWidth = this._width / 3
+    var gridHeight = this._height / 3
     for (var x = 0; x < this._width; ++x) {
       for (var y = 0; y < this._height; ++y) {
-        if ((x % this._width) == 0 || (y % this._height) == 0)
+        if ((x % gridWidth) == 0 || (y % gridHeight) == 0)
           this.cell[x][y] = 1;
         else
           this.cell[x][y] = 0;
@@ -113,7 +115,7 @@ var canvasBig = document.getElementById('canvasBig');
 var canvasImg = document.getElementById("canvasImg");
 canvasBig.getContext('2d').imageSmoothingEnabled = false;
 
-var ca = new TotalisticCA(16);
+var ca = new TotalisticCA(16, 16);
 
 refresh();
 
@@ -173,16 +175,22 @@ function onChangeNumberRule(rule) {
   }
 }
 
-function onChangeNumberGridSize(gridwidth, gridHeight) {
+function onChangeNumberWidth(gridwidth) {
   gridWidth = parseInt(gridwidth);
-  gridHeight = parseInt(gridHeight);
-  ca.changeSize(gridWidth, gridHeight);
+  ca.width = gridWidth;
 
   var canvasWidth = gridWidth * 60;
-  var canvasHeight = gridHeight * 60
   canvasBig.width = canvasWidth;
-  canvasBig.height = canvasHeight;
   canvasImg.width = canvasWidth;
+  refresh();
+}
+
+function onChangeNumberHeight(gridHeight) {
+  gridHeight = parseInt(gridHeight);
+  ca.height = gridHeight;
+
+  var canvasHeight = gridHeight * 60;
+  canvasBig.height = canvasHeight;
   canvasImg.height = canvasHeight;
   refresh();
 }
