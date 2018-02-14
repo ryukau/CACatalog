@@ -1,19 +1,17 @@
 class TotalisticCA {
-  constructor(gridSize) {
-    this.initialize(gridSize);
+  constructor(width, height) {
+    this.initialize(width, height);
   }
 
-  initialize(gridSize) {
-    var previewSize = gridSize * 3;
-    this.width = previewSize;
-    this.height = previewSize;
+  initialize(width, height) {
+    this._width = width * 3;
+    this._height = height * 3;
 
     this._rule = 9;
-    this._gridSize = gridSize;
 
     this.cell = [];
-    for (var i = 0; i < this.width; ++i)
-      this.cell[i] = new Array(this.height).fill(0);
+    for (var i = 0; i < this._width; ++i)
+      this.cell.push(new Array(this._height).fill(0));
 
     this.drawGrid();
 
@@ -29,12 +27,24 @@ class TotalisticCA {
     return this._rule;
   }
 
-  set gridSize(gridSize) {
-    this.initialize(gridSize);
+  set width(value) {
+    this.initialize(value, this._height / 3);
   }
 
-  get gridSize() {
-    return this._gridSize;
+  get width() {
+    return this._width;
+  }
+
+  set height(value) {
+    this.initialize(this._width / 3, value);
+  }
+
+  get height() {
+    return this._height;
+  }
+  
+  changeSize(width, height) {
+    this.initialize(width, height);
   }
 
   at(x, y) {
@@ -47,9 +57,9 @@ class TotalisticCA {
   }
 
   drawGrid() {
-    for (var x = 0; x < this.width; ++x) {
-      for (var y = 0; y < this.height; ++y) {
-        if ((x % this._gridSize) == 0 || (y % this._gridSize) == 0)
+    for (var x = 0; x < this._width; ++x) {
+      for (var y = 0; y < this._height; ++y) {
+        if ((x % this._width) == 0 || (y % this._height) == 0)
           this.cell[x][y] = 1;
         else
           this.cell[x][y] = 0;
@@ -60,8 +70,8 @@ class TotalisticCA {
   next() {
     this.copyToBackCell();
 
-    for (var x = 0; x < this.width; ++x) {
-      for (var y = 0; y < this.height; ++y) {
+    for (var x = 0; x < this._width; ++x) {
+      for (var y = 0; y < this._height; ++y) {
         var sum = this.sumNM(x, y);
 
         if (sum == 0)
@@ -90,7 +100,7 @@ class TotalisticCA {
         if (x == 0 && y == 0)
           continue;
 
-        if (this.backCell[this.mod(xPos + x, this.width)][this.mod(yPos + y, this.height)])
+        if (this.backCell[this.mod(xPos + x, this._width)][this.mod(yPos + y, this._height)])
           sum += 1;
       }
     }
@@ -163,15 +173,17 @@ function onChangeNumberRule(rule) {
   }
 }
 
-function onChangeNumberGridSize(gridSize) {
-  gridSize = parseInt(gridSize);
-  ca.gridSize = gridSize;
+function onChangeNumberGridSize(gridwidth, gridHeight) {
+  gridWidth = parseInt(gridwidth);
+  gridHeight = parseInt(gridHeight);
+  ca.changeSize(gridWidth, gridHeight);
 
-  var canvasSize = gridSize * 60;
-  canvasBig.width = canvasSize;
-  canvasBig.height = canvasSize;
-  canvasImg.width = canvasSize;
-  canvasImg.height = canvasSize;
+  var canvasWidth = gridWidth * 60;
+  var canvasHeight = gridHeight * 60
+  canvasBig.width = canvasWidth;
+  canvasBig.height = canvasHeight;
+  canvasImg.width = canvasWidth;
+  canvasImg.height = canvasHeight;
   refresh();
 }
 
