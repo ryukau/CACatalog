@@ -17,6 +17,10 @@ margin: 0;
 font-size: 150%;
 }
 
+.bigFont input {
+width: 15%;
+}
+
 #imglist {
 height: 500px;
 overflow-y: scroll;
@@ -49,11 +53,11 @@ border-color: #dddddd;
 <nav class="bigFont">
     Rule
     <input id="numberRule" class="bigFont" type="number" value="9" min="0" max="255" step="1" onchange="onChangeNumberRule(this.value)">
-    縦幅
-    <input id="numberGridSize" class="bigFont" type="number" value="16" min="8" max="64" step="1" onchange="onChangeNumberGridSize(this.value)">
-    横幅
-    <input id="numberGridSize" class="bigFont" type="number" value="16" min="8" max="64" step="1" onchange="onChangeNumberGridSize(this.value)">
-    <a href="https://github.com/ryukau/CACatalog">使い方</a>
+    / 横幅
+    <input id="numberWidth" class="bigFont" type="number" value="16" min="8" max="64" step="1" onchange="onChangeNumberWidth(this.value)">
+    / 縦幅
+    <input id="numberHeight" class="bigFont" type="number" value="16" min="8" max="64" step="1" onchange="onChangeNumberHeight(this.value)">
+    / <a href="https://github.com/ryukau/CACatalog">使い方</a>
 </nav>
 
 <div id="imglist">
