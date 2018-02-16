@@ -196,8 +196,9 @@ function onChangeNumberHeight(gridHeight) {
 }
 
 function onClickButtonCA(rule, generation) {
-  var CACanvasText = document.getElementById("CACanvasText");
-  CACanvasText.textContent = ("Rule " + rule.toString() + ", Generation " + generation.toString());
+  var descriptionText = ("Rule " + rule.toString() + ", Generation " + generation.toString());
+  document.getElementById("CACanvasTextTop").textContent = descriptionText;
+  document.getElementById("CACanvasTextBottom").textContent = descriptionText;
 
   ca.rule = rule;
   ca.drawGrid();
